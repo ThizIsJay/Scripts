@@ -1,0 +1,64 @@
+#! /usr/bin/env bash
+
+function packagedetect () {
+	which apt >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		export PKGMAN=apt
+	fi
+	which pacman >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		export PKGMAN=pacman
+	fi
+	which dnf >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		export PKGMAN=dnf
+	fi
+	which zypper >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		export PKGMAN=zypper
+	fi
+	which emerge >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		export PKGMAN=portage
+	fi
+	which xbps-install >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		export PKGMAN=xbps
+	fi
+}
+
+function update () {
+	echo "[!] Tux Update"; echo ""
+	if [ $PKGMAN = "apt" ]; then
+		sudo apt-get update -y; sudo apt-get upgrade -y
+		sudo apt-get clean -y
+		sudo apt-get autoremove -y
+	fi
+	if [ $PKGMAN = "pacman" ]; then
+		which yay > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			yay -Syyu --noconfirm; yay -Sc --noconfirm
+		else
+			sudo pacman -Syyu --noconfirm; sudo pacman -Sc --noconfirm
+	fi
+	fi
+	if [ $PKGMAN = "dnf" ]; then
+		sudo dnf update -y; sudo dnf upgrade -y
+		sudo dnf clean all -y
+	fi
+	if [ $PKGMAN = "zypper" ]; then
+		sudo zypper update -y
+		sudo zypper clean --all -y
+	fi
+	if [ $PKGMAN = "portage" ]; then
+		sudo emerge --ask --verbose --update --deep --newuse @world
+	fi
+	if [ $PKGMAN = "xbps" ]; then
+		sudo xbps-install -Syu
+		sudo xbps-remove -O
+	fi
+	echo "[!] Update voltooid"; echo ""
+
+}
+packagedetect
+update
