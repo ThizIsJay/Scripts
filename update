@@ -57,7 +57,7 @@ function update () {
 		sudo xbps-install -Syu
 		sudo xbps-remove -O
 	fi
-	echo "[!] Update voltooid"; echo ""
+	echo ""; echo "[!] Update Voltooid"
 
 }
 packagedetect
