@@ -33,6 +33,7 @@ function update () {
 		sudo apt-get update -y; sudo apt-get upgrade -y
 		sudo apt-get clean -y
 		sudo apt-get autoremove -y
+		sudo apt-get --fix-broken install -y
 	fi
 	if [ $PKGMAN = "pacman" ]; then
 		which yay > /dev/null 2>&1
