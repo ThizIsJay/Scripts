@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 function packagedetect () {
-	which apt >/dev/null 2>&1
+which apt >/dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		export PKGMAN=apt
 	fi
